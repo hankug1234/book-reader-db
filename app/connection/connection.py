@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import declarative_base
-from tables.book_reader_tables import Book_Reader_Tables 
-from crud.repository import Model_meta_data_repository, Data_set_meta_data_repository
+from app.tables.book_reader_tables import Book_Reader_Tables 
+from app.crud.repository import Model_meta_data_repository, Data_set_meta_data_repository
 import json
 
 class Init_db:

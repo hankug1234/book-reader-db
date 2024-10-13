@@ -1,10 +1,11 @@
-from typing import Annotated
-from fastapi import FastAPI, HTTPException, Query
-from fastapi.middleware.cors import CORSMiddleware
-from connection.connection import Init_db
-from data_type import Rvc_data_set_meta, Tts_data_set_meta, Rvc_model_meta, Tts_model_meta
 import os, secrets, sys
-sys.path.extend(["./tables/*","./conneection/*","./crud/*"])
+sys.path.extend(["./tables/book_reader_tables.py","./conneection/connection.py","./crud/repository.py"])
+from typing import Annotated
+from fastapi import FastAPI, HTTPException, Path
+from fastapi.middleware.cors import CORSMiddleware
+from app.connection.connection import Init_db
+from app.data_type import Rvc_data_set_meta, Tts_data_set_meta, Rvc_model_meta, Tts_model_meta
+
 
 app = FastAPI()
 
@@ -41,7 +42,7 @@ async def save_rvc_model_meta_data(meta: Rvc_model_meta):
         raise HTTPException(status_code=400, detail="invalidate data format ")
     
 @app.get("/model/rvc/{type}",status_code=200)
-async def get_rvc_model_meta_data(type: Annotated[str,Query(title="search type (specific model id | all)")]):
+async def get_rvc_model_meta_data(type: Annotated[str,Path(title="search type (specific model id | all)")]):
     try:
         if type == "all":
             return [d.asJson() for d in rvc_model_repository.select_all()]
@@ -51,8 +52,8 @@ async def get_rvc_model_meta_data(type: Annotated[str,Query(title="search type (
         raise HTTPException(status_code=400, detail="invalidate data format ")
 
 @app.get("/model/page/rvc/{start}/{offset}",status_code=200)
-async def get_rvc_model_meta_data_by_page(start: Annotated[int|None,Query(title="search start point")],
-                                  offset: Annotated[int|None,Query(title="search offset from start")]):
+async def get_rvc_model_meta_data_by_page(start: Annotated[int|None,Path(title="search start point")],
+                                  offset: Annotated[int|None,Path(title="search offset from start")]):
     try:
         return [d.asJson() for d in rvc_model_repository.select_by_page(start,offset)]
     except Exception as _:
@@ -75,7 +76,7 @@ async def save_tts_model_meta_data(meta: Tts_model_meta):
         raise HTTPException(status_code=400, detail="invalidate data format ")
 
 @app.get("/model/tts/{type}",status_code=200)
-async def get_tts_model_meta_data(type: Annotated[str,Query(title="search type (specific model id | all)")]):
+async def get_tts_model_meta_data(type: Annotated[str,Path(title="search type (specific model id | all)")]):
     try:
         if type == "all":
             return [d.asJson() for d in tts_model_repository.select_all()]
@@ -85,8 +86,8 @@ async def get_tts_model_meta_data(type: Annotated[str,Query(title="search type (
         raise HTTPException(status_code=400, detail="invalidate data format ")
 
 @app.get("/model/page/tts/{start}/{offset}",status_code=200)
-async def get_tts_model_meta_data_by_page(start: Annotated[int|None,Query(title="search start point")],
-                                  offset: Annotated[int|None,Query(title="search offset from start")]):
+async def get_tts_model_meta_data_by_page(start: Annotated[int|None,Path(title="search start point")],
+                                  offset: Annotated[int|None,Path(title="search offset from start")]):
     try:
         return [d.asJson() for d in tts_model_repository.select_by_page(start,offset)]
     except Exception as _:
@@ -109,7 +110,7 @@ async def save_rvc_data_set_meta_data(meta:Rvc_data_set_meta):
         raise HTTPException(status_code=400, detail="invalidate data format ")
 
 @app.get("/data/rvc/{type}",status_code=200)
-async def get_rvc_data_set_meta_data(type: Annotated[str,Query(title="search type (specific data set id | all)")]):
+async def get_rvc_data_set_meta_data(type: Annotated[str,Path(title="search type (specific data set id | all)")]):
     try:
         if type == "all":
             return [d.asJson() for d in rvc_data_set_repository.select_all()]
@@ -119,8 +120,8 @@ async def get_rvc_data_set_meta_data(type: Annotated[str,Query(title="search typ
         raise HTTPException(status_code=400, detail="invalidate data format ")
     
 @app.get("/data/page/rvc/{start}/{offset}",status_code=200)
-async def get_rvc_data_set_meta_data_by_page(start: Annotated[int|None,Query(title="search start point")],
-                                  offset: Annotated[int|None,Query(title="search offset from start")]):
+async def get_rvc_data_set_meta_data_by_page(start: Annotated[int|None,Path(title="search start point")],
+                                  offset: Annotated[int|None,Path(title="search offset from start")]):
     try:
         return [d.asJson() for d in rvc_data_set_repository.select_by_page(start,offset)]
     except Exception as _:
@@ -141,7 +142,7 @@ async def save_rvc_data_set_meta_data(meta:Tts_data_set_meta):
         raise HTTPException(status_code=400, detail="invalidate data format ")
     
 @app.get("/data/tts/{type}",status_code=200)
-async def get_tts_data_set_meta_data(type: Annotated[str,Query(title="search type (specific data set id | all)")]):
+async def get_tts_data_set_meta_data(type: Annotated[str,Path(title="search type (specific data set id | all)")]):
     try:
         if type == "all":
             return [d.asJson() for d in tts_data_set_repository.select_all()]
@@ -151,8 +152,8 @@ async def get_tts_data_set_meta_data(type: Annotated[str,Query(title="search typ
         raise HTTPException(status_code=400, detail="invalidate data format ")
 
 @app.get("/data/page/tts/{start}/{offset}",status_code=200)
-async def get_tts_data_set_meta_data_by_page(start: Annotated[int|None,Query(title="search start point")],
-                                  offset: Annotated[int|None,Query(title="search offset from start")]):
+async def get_tts_data_set_meta_data_by_page(start: Annotated[int|None,Path(title="search start point")],
+                                  offset: Annotated[int|None,Path(title="search offset from start")]):
     try:
         return [d.asJson() for d in tts_data_set_repository.select_by_page(start,offset)]
     except Exception as _:
