@@ -10,10 +10,8 @@ from app.data_type import Rvc_data_set_meta, Tts_data_set_meta, Rvc_model_meta, 
 app = FastAPI()
 
 origins = [
-    "http://localhost.tiangolo.com",
-    "https://localhost.tiangolo.com",
     "http://localhost",
-    "http://localhost:8080",
+    "http://localhost:3000",
 ]
 
 app.add_middleware(
@@ -96,7 +94,7 @@ async def get_tts_model_meta_data_by_page(start: Annotated[int|None,Path(title="
 
 
 
-@app.post("/reist/rvc_data",status_code=200)
+@app.post("/regist/rvc_data",status_code=200)
 async def save_rvc_data_set_meta_data(meta:Rvc_data_set_meta):
     table = db.tables.rvc_data_set
     data_set_id = secrets.token_urlsafe(16)
@@ -128,7 +126,7 @@ async def get_rvc_data_set_meta_data_by_page(start: Annotated[int|None,Path(titl
         raise HTTPException(status_code=400, detail="invalidate data format ")    
     
     
-@app.post("/reist/tts_data",status_code=200)
+@app.post("/regist/tts_data",status_code=200)
 async def save_rvc_data_set_meta_data(meta:Tts_data_set_meta):
     table = db.tables.tts_data_set
     data_set_id = secrets.token_urlsafe(16)
