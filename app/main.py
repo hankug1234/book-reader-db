@@ -37,9 +37,9 @@ async def save_rvc_model_meta_data(meta: Rvc_model_meta):
                  data_set_id = meta.data_set_id, test_script = meta.test_script)
     try:
         rvc_model_repository.insert([data])
-        return {"detail" : "insert success"}
-    except Exception as _:
-        raise HTTPException(status_code=400, detail="invalidate data format ")
+        return data.asJson
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"invalidate data format {e}")
     
 @app.get("/model/rvc/{type}",status_code=200)
 async def get_rvc_model_meta_data(type: Annotated[str,Path(title="search type (specific model id | all)")]):
@@ -71,7 +71,7 @@ async def save_tts_model_meta_data(meta: Tts_model_meta):
                  data_set_id = meta.data_set_id, test_script = meta.test_script, language=meta.language)
     try:
         tts_model_repository.insert([data])
-        return {"detail" : "insert success"}
+        return data.asJson
     except Exception as _:
         raise HTTPException(status_code=400, detail="invalidate data format ")
 
