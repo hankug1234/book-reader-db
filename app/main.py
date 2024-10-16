@@ -50,7 +50,7 @@ async def custom_middleware(request: Request, call_next):
     return response
 
 
-@app.post("/train/rvc",status_code=200)
+@app.post("/train/rvc",status_code=200,tags=["train"])
 async def save_rvc_model_meta_data(meta: Rvc_model_meta):
     table = db.tables.rvc_model
     model_id = secrets.token_urlsafe(16)
@@ -64,7 +64,7 @@ async def save_rvc_model_meta_data(meta: Rvc_model_meta):
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"invalidate data format {e}")
     
-@app.get("/model/rvc/{type}",status_code=200)
+@app.get("/model/rvc/{type}",status_code=200,tags=["model"])
 async def get_rvc_model_meta_data(type: Annotated[str,Path(title="search type (specific model id | all)")]):
     try:
         if type == "all":
@@ -74,7 +74,7 @@ async def get_rvc_model_meta_data(type: Annotated[str,Path(title="search type (s
     except Exception as _:
         raise HTTPException(status_code=400, detail="invalidate data format ")
 
-@app.get("/model/page/rvc/{start}/{offset}",status_code=200)
+@app.get("/model/page/rvc/{start}/{offset}",status_code=200,tags=["model"])
 async def get_rvc_model_meta_data_by_page(start: Annotated[int|None,Path(title="search start point")],
                                   offset: Annotated[int|None,Path(title="search offset from start")]):
     try:
@@ -84,7 +84,7 @@ async def get_rvc_model_meta_data_by_page(start: Annotated[int|None,Path(title="
  
     
 
-@app.post("/train/tts",status_code=200)
+@app.post("/train/tts",status_code=200,tags=["train"])
 async def save_tts_model_meta_data(meta: Tts_model_meta):
     table = db.tables.tts_model
     model_id = secrets.token_urlsafe(16)
@@ -98,7 +98,7 @@ async def save_tts_model_meta_data(meta: Tts_model_meta):
     except Exception as _:
         raise HTTPException(status_code=400, detail="invalidate data format ")
 
-@app.get("/model/tts/{type}",status_code=200)
+@app.get("/model/tts/{type}",status_code=200,tags=["model"])
 async def get_tts_model_meta_data(type: Annotated[str,Path(title="search type (specific model id | all)")]):
     try:
         if type == "all":
@@ -108,7 +108,7 @@ async def get_tts_model_meta_data(type: Annotated[str,Path(title="search type (s
     except Exception as _:
         raise HTTPException(status_code=400, detail="invalidate data format ")
 
-@app.get("/model/page/tts/{start}/{offset}",status_code=200)
+@app.get("/model/page/tts/{start}/{offset}",status_code=200,tags=["model"])
 async def get_tts_model_meta_data_by_page(start: Annotated[int|None,Path(title="search start point")],
                                   offset: Annotated[int|None,Path(title="search offset from start")]):
     try:
@@ -119,7 +119,7 @@ async def get_tts_model_meta_data_by_page(start: Annotated[int|None,Path(title="
 
 
 
-@app.post("/regist/rvc_data",status_code=200)
+@app.post("/regist/rvc_data",status_code=200,tags=["regist"])
 async def save_rvc_data_set_meta_data(meta:Rvc_data_set_meta):
     table = db.tables.rvc_data_set
     data_set_id = secrets.token_urlsafe(16)
@@ -132,7 +132,7 @@ async def save_rvc_data_set_meta_data(meta:Rvc_data_set_meta):
     except Exception as _:
         raise HTTPException(status_code=400, detail="invalidate data format ")
 
-@app.get("/data/rvc/{type}",status_code=200)
+@app.get("/data/rvc/{type}",status_code=200,tags=["data"])
 async def get_rvc_data_set_meta_data(type: Annotated[str,Path(title="search type (specific data set id | all)")]):
     try:
         if type == "all":
@@ -142,7 +142,7 @@ async def get_rvc_data_set_meta_data(type: Annotated[str,Path(title="search type
     except Exception as _:
         raise HTTPException(status_code=400, detail="invalidate data format ")
     
-@app.get("/data/page/rvc/{start}/{offset}",status_code=200)
+@app.get("/data/page/rvc/{start}/{offset}",status_code=200,tags=["data"])
 async def get_rvc_data_set_meta_data_by_page(start: Annotated[int|None,Path(title="search start point")],
                                   offset: Annotated[int|None,Path(title="search offset from start")]):
     try:
@@ -151,7 +151,7 @@ async def get_rvc_data_set_meta_data_by_page(start: Annotated[int|None,Path(titl
         raise HTTPException(status_code=400, detail="invalidate data format ")    
     
     
-@app.post("/regist/tts_data",status_code=200)
+@app.post("/regist/tts_data",status_code=200,tags=["regist"])
 async def save_rvc_data_set_meta_data(meta:Tts_data_set_meta):
     table = db.tables.tts_data_set
     data_set_id = secrets.token_urlsafe(16)
@@ -164,7 +164,7 @@ async def save_rvc_data_set_meta_data(meta:Tts_data_set_meta):
     except Exception as _:
         raise HTTPException(status_code=400, detail="invalidate data format ")
     
-@app.get("/data/tts/{type}",status_code=200)
+@app.get("/data/tts/{type}",status_code=200,tags=["data"])
 async def get_tts_data_set_meta_data(type: Annotated[str,Path(title="search type (specific data set id | all)")]):
     try:
         if type == "all":
@@ -174,7 +174,7 @@ async def get_tts_data_set_meta_data(type: Annotated[str,Path(title="search type
     except Exception as _:
         raise HTTPException(status_code=400, detail="invalidate data format ")
 
-@app.get("/data/page/tts/{start}/{offset}",status_code=200)
+@app.get("/data/page/tts/{start}/{offset}",status_code=200,tags=["data"])
 async def get_tts_data_set_meta_data_by_page(start: Annotated[int|None,Path(title="search start point")],
                                   offset: Annotated[int|None,Path(title="search offset from start")]):
     try:
