@@ -1,11 +1,11 @@
 import os, secrets, sys
 sys.path.extend(["./tables/book_reader_tables.py","./conneection/connection.py","./crud/repository.py"])
 from typing import Annotated
-from fastapi import FastAPI, HTTPException, Path
+from fastapi import FastAPI, HTTPException, Path, Request
 from fastapi.middleware.cors import CORSMiddleware
 from app.connection.connection import Init_db
 from app.data_type import Rvc_data_set_meta, Tts_data_set_meta, Rvc_model_meta, Tts_model_meta
-
+import logging
 
 app = FastAPI()
 
@@ -24,6 +24,31 @@ app.add_middleware(
 
 db = Init_db(os.sep.join(os.path.abspath(__file__).split(os.sep)[:-1]) + os.sep + "app_config.json")
 rvc_model_repository, tts_model_repository, rvc_data_set_repository, tts_data_set_repository = db.get_repository()
+
+logger = logging.getLogger("main")
+
+# 2. logger 레벨 설정
+logger.setLevel(logging.DEBUG)
+# 또는
+logging.basicConfig(level=logging.DEBUG)
+
+# 3. formatting 설정
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# 4. handler 설정
+# console 출력
+stream_hander = logging.StreamHandler()
+stream_hander.setFormatter(formatter)
+logger.addHandler(stream_hander)
+
+@app.middleware("http")
+async def custom_middleware(request: Request, call_next):
+    
+    logging.info(await request.body())
+    response = await call_next(request)
+    
+    return response
+
 
 @app.post("/train/rvc",status_code=200)
 async def save_rvc_model_meta_data(meta: Rvc_model_meta):
