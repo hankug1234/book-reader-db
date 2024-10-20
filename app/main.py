@@ -40,7 +40,7 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 stream_hander = logging.StreamHandler()
 stream_hander.setFormatter(formatter)
 logger.addHandler(stream_hander)
-
+"""
 @app.middleware("http")
 async def custom_middleware(request: Request, call_next):
     
@@ -48,7 +48,7 @@ async def custom_middleware(request: Request, call_next):
     response = await call_next(request)
     
     return response
-
+"""
 
 @app.post("/train/rvc",status_code=200,tags=["train"])
 async def save_rvc_model_meta_data(meta: Rvc_model_meta):
@@ -119,7 +119,7 @@ async def get_tts_model_meta_data_by_page(start: Annotated[int|None,Path(title="
 
 
 
-@app.post("/regist/rvc_data",status_code=200,tags=["regist"])
+@app.post("/regist/rvc/data",status_code=200,tags=["regist"])
 async def save_rvc_data_set_meta_data(meta:Rvc_data_set_meta):
     table = db.tables.rvc_data_set
     data_set_id = secrets.token_urlsafe(16)
@@ -151,7 +151,7 @@ async def get_rvc_data_set_meta_data_by_page(start: Annotated[int|None,Path(titl
         raise HTTPException(status_code=400, detail="invalidate data format ")    
     
     
-@app.post("/regist/tts_data",status_code=200,tags=["regist"])
+@app.post("/regist/tts/data",status_code=200,tags=["regist"])
 async def save_rvc_data_set_meta_data(meta:Tts_data_set_meta):
     table = db.tables.tts_data_set
     data_set_id = secrets.token_urlsafe(16)
