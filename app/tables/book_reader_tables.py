@@ -1,7 +1,8 @@
 from sqlalchemy import Column
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
-from sqlalchemy import String,Text
+from sqlalchemy import String
+from sqlalchemy.dialects.mysql import LONGTEXT
 from sqlalchemy.orm import relationship
 
 class Book_Reader_Tables:
@@ -18,7 +19,7 @@ class Book_Reader_Tables:
             __table_args__ = {'schema': self.database} 
             
             data_set_name = Column(String(200))
-            description = Column(Text)
+            description = Column(LONGTEXT)
             data_set = Column(String(200))
             data_set_id = Column(String(200),primary_key=True)
             
@@ -37,7 +38,7 @@ class Book_Reader_Tables:
             __table_args__ = {'schema': self.database} 
             
             data_set_name = Column(String(200))
-            description = Column(Text)
+            description = Column(LONGTEXT)
             data_set = Column(String(200))
             file_list = Column(String(200))
             config  = Column(String(200))
@@ -62,7 +63,7 @@ class Book_Reader_Tables:
             batch_size = Column(Integer)
             save_epoch = Column(Integer)
             total_epoch = Column(Integer)
-            image = Column(Text)
+            image = Column(LONGTEXT)
             image_name = Column(String(200))
             data_set_id = Column(String(200),ForeignKey("book_reader.rvc_data_set_meta_data.data_set_id"))
             test_script = Column(String(200))
@@ -87,7 +88,7 @@ class Book_Reader_Tables:
             batch_size = Column(Integer)
             save_epoch = Column(Integer)
             total_epoch = Column(Integer)
-            image = Column(Text)
+            image = Column(LONGTEXT)
             image_name = Column(String(200))
             data_set_id = Column(String(200),ForeignKey("book_reader.tts_data_set_meta_data.data_set_id"))
             language = Column(String(200))
