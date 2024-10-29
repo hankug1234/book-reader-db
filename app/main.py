@@ -54,7 +54,7 @@ async def custom_middleware(request: Request, call_next):
 async def save_rvc_model_meta_data(meta: Rvc_model_meta):
     table = db.tables.rvc_model
     model_id = secrets.token_urlsafe(16)
-    data = table(id = model_id, name = meta.name,
+    data = table(id = model_id, name = meta.model_name,
                  batch_size = meta.batch_size, save_epoch = meta.save_epoch,
                  total_epoch = meta.total_epoch, image = meta.image, image_name = meta.image_name,
                  data_set_id = meta.data_set_id, test_script = meta.test_script)
@@ -88,7 +88,7 @@ async def get_rvc_model_meta_data_by_page(start: Annotated[int|None,Path(title="
 async def save_tts_model_meta_data(meta: Tts_model_meta):
     table = db.tables.tts_model
     model_id = secrets.token_urlsafe(16)
-    data = table(id = model_id, name = meta.name,
+    data = table(id = model_id, name = meta.model_name,
                  batch_size = meta.batch_size, save_epoch = meta.save_epoch,
                  total_epoch = meta.total_epoch, image = meta.image, image_name = meta.image_name,
                  data_set_id = meta.data_set_id, test_script = meta.test_script, language=meta.language)
